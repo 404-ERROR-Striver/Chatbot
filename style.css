@@ -17,6 +17,7 @@ body{
     flex-direction: column;
     gap:20px;  
     font-size: 20px;
+    overflow:auto;
 }
 .user-chat-box{
     width: 60%;
@@ -37,12 +38,13 @@ body{
 }
 .ai-chat-area{
     width:90%;
+    
     background-color: rgba(0, 0, 0, 0.363);
     padding :20px;
     position: relative;
     left:10%;
     color: rgba(255, 255, 255, 0.769);
-    border-radius: 40px 40px 40px 0px; 
+    border-radius: 0px 40px 40px 40px; 
     box-shadow: 2px 5px 10px black;
 }
 #userImage{
@@ -89,4 +91,7 @@ body{
 .prompt-area button{
     background-color: rgba(0, 0, 0, 0.566);
 
+}
+.load{
+   filter:drop-shadow(2px 5px 10px rgb(231, 226, 226)); 
 }
