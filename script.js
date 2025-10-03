@@ -59,7 +59,7 @@ function handlechatResponse(message){
                 ${user.message}
                 ${user.file.data?`<img src="data:${user.file.mime_type};base64,${user.file.data}" class="choosing" />`:""}
                 </div>`
-                prompt.value=""
+promptInput.value=""
 let userChatBox = createChatBox(html,"user-chat-box")
 chatContainer.appendChild(userChatBox)
 chatContainer.scrollTo({top:chatContainer.scrollHeight,behavior:"smooth"}) 
