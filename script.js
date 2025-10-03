@@ -1,7 +1,7 @@
 let promptInput= document.querySelector("#prompt")
 let chatContainer= document.querySelector(".chat-container")
 let imagebtn= document.querySelector("#image")
-let imagebtn= document.querySelector("#image img")
+let image= document.querySelector("#image img")
 let imageinput= document.querySelector("#image input")
 
 const Api_Url="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyCFXCMnEXv1XyG2G9ItefbDk4q0dbx16ZY"
@@ -38,6 +38,9 @@ let text= aiChatBox.querySelector(".ai-chat-area")
     }
     finally{
         chatContainer.scrollTo({top:chatContainer.scrollHeight,behavior:"smooth"})
+        image.src=`img.svg`
+        image.classList.remove("choose")
+        user.file={}
     }
 }
   
@@ -50,7 +53,7 @@ function createChatBox(html,classes){
 }
 function handlechatResponse(message){
     user.message=message
-    let html=`<img src="user.png" alt ="" id="userImage" width ="50">
+    let html=`<img src="user.png" alt ="" id="userImage" width ="8%">
                 <div class="user-chat-area">
                 ${user.message}
                 ${user.file.data?`<img src="data:${user.file.mime_type};base64,${user.file.data}" class="choosing" />`:""}
@@ -61,7 +64,7 @@ chatContainer.appendChild(userChatBox)
 chatContainer.scrollTo({top:chatContainer.scrollHeight,behavior:"smooth"}) 
 
 setTimeout(()=>{
-     let html=` <img src="ai.png" alt ="" id="aiImage" width ="70">
+     let html=` <img src="ai.png" alt ="" id="aiImage" width ="10%">
                 <div class="ai-chat-area">
                 <img src="loading.gif" alt="" class="load" width="100px"> 
                 </div>`
@@ -88,8 +91,10 @@ imageinput.addEventListener("change",()=>{
         mime_type: file.type,
         data: base64string
     }
+    image.src=`data:${user.file.mime_type};base64,${user.file.data}`
+    image.classList.add("choose")
     }
-    imagebtn.innerHTML=`${user.file.data?`<img src="data:${user.file.mime_type};base64,${user.file.data}" class="choosing" />`:""}`
+    
     reader.readAsDataURL(file)
 })
 
