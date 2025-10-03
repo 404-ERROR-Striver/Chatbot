@@ -1,4 +1,5 @@
 let promptInput= document.querySelector("#prompt")
+let submitbtn= document.querySelector("#submit")
 let chatContainer= document.querySelector(".chat-container")
 let imagebtn= document.querySelector("#image")
 let image= document.querySelector("#image img")
@@ -81,6 +82,12 @@ promptInput.addEventListener("keydown", (e) => {
     handlechatResponse(promptInput.value)
   }
 })
+
+
+submitbtn.addEventListener("click",()=>{
+    handlechatResponse(promptInput.value)
+})
+
 imageinput.addEventListener("change",()=>{
     const file = imageinput.files[0]
     if(!file) return
