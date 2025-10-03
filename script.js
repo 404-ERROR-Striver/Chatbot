@@ -1,21 +1,28 @@
-let prompt= document.querySelector("#prompt")
+let promptInput= document.querySelector("#prompt")
 let chatContainer= document.querySelector(".chat-container")
+let imagebtn= document.querySelector("#image")
+let imagebtn= document.querySelector("#image img")
+let imageinput= document.querySelector("#image input")
 
 const Api_Url="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyCFXCMnEXv1XyG2G9ItefbDk4q0dbx16ZY"
 
 let user={
-    data:null,
+    message:null,
+    file:{
+        mime_type: null,
+        data:null
+    }
 }
 
 async function generateResponse(aiChatBox){
 
 let text= aiChatBox.querySelector(".ai-chat-area")
-    let RequestOption={
+    let RequestOption={ 
         method:"POST",
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({
             "contents":[
-                {"parts":[{"text":user.data}
+                {"parts":[{"text":user.message},(user.file.data?[{"inline_data":user.file}]:[])
                 ] 
             }]
         })
@@ -28,7 +35,11 @@ let text= aiChatBox.querySelector(".ai-chat-area")
     }
     catch(error){
         console.log(error);
-    }}
+    }
+    finally{
+        chatContainer.scrollTo({top:chatContainer.scrollHeight,behavior:"smooth"})
+    }
+}
   
 
 function createChatBox(html,classes){
@@ -38,14 +49,16 @@ function createChatBox(html,classes){
     return div
 }
 function handlechatResponse(message){
-    user.data=message
+    user.message=message
     let html=`<img src="user.png" alt ="" id="userImage" width ="50">
                 <div class="user-chat-area">
-                ${user.data}
+                ${user.message}
+                ${user.file.data?`<img src="data:${user.file.mime_type};base64,${user.file.data}" class="choosing" />`:""}
                 </div>`
                 prompt.value=""
 let userChatBox = createChatBox(html,"user-chat-box")
 chatContainer.appendChild(userChatBox)
+chatContainer.scrollTo({top:chatContainer.scrollHeight,behavior:"smooth"}) 
 
 setTimeout(()=>{
      let html=` <img src="ai.png" alt ="" id="aiImage" width ="70">
@@ -55,12 +68,31 @@ setTimeout(()=>{
                 let aiChatBox=createChatBox(html,"ai-chat-box")
                 chatContainer.appendChild(aiChatBox)
                 generateResponse(aiChatBox)
-},10)
+},500)
 
 }
 
-prompt.addEventListener("keydown",(e)=>{
-    if(e.key=="Enter"){
-    handlechatResponse(prompt.value)
+
+promptInput.addEventListener("keydown", (e) => {
+  if (e.key == "Enter") {
+    handlechatResponse(promptInput.value)
+  }
+})
+imageinput.addEventListener("change",()=>{
+    const file = imageinput.files[0]
+    if(!file) return
+    let reader = new FileReader()
+    reader.onload=(e)=>{
+        let base64string = e.target.result.split(",")[1]
+        user.file={
+        mime_type: file.type,
+        data: base64string
     }
+    }
+    imagebtn.innerHTML=`${user.file.data?`<img src="data:${user.file.mime_type};base64,${user.file.data}" class="choosing" />`:""}`
+    reader.readAsDataURL(file)
+})
+
+imagebtn.addEventListener("click",()=>{
+    imagebtn.querySelector("input").click()
 })

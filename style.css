@@ -35,6 +35,12 @@ body{
     color: rgba(255, 255, 255, 0.769);
     border-radius: 40px 40px 0px 40px;  
     box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.858); 
+    display:flex;
+    gap: 10px;
+    flex-direction: column;
+}
+.choosing{
+    width: 30%;
 }
 .ai-chat-area{
     width:90%;
